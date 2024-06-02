@@ -112,6 +112,80 @@ namespace GeneticAlgorithm
             }
         }
 
+        private static void askForResult()
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.Write("My result is: ");
+                    double desiredResult = Convert.ToDouble(Console.ReadLine());
+                    expectedResult = desiredResult;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("The input must be a number!");
+                }
+            }
+        }
+
+        private static void askForErrorRate()
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Accepted error rate (in %): ");
+                    double inputErrorRate = Convert.ToDouble(Console.ReadLine());
+
+                    if(inputErrorRate < 0)
+                    {
+                        throw new Exception("negative");
+                    }
+                    else if(inputErrorRate > 100)
+                    {
+                        throw new Exception("too high");
+                    }
+
+                    errorRate = inputErrorRate;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("The input must be a positive number between 0 - 100!");
+                }
+            }
+        }
+
+        private static void askForMutationRate()
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Rate of mutations (in %): ");
+                    double inputMutationRate = Convert.ToDouble(Console.ReadLine());
+
+                    if (inputMutationRate < 0)
+                    {
+                        throw new Exception("negative");
+                    }
+                    else if (inputMutationRate > 100)
+                    {
+                        throw new Exception("too high");
+                    }
+
+                    mutationCont = inputMutationRate;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("The input must be a positive number between 0 - 100!");
+                }
+            }
+        }
+
         private static List<Solution> createNextGeneration()
         {
             List<Solution> nextSolutions = new List<Solution>();
@@ -142,25 +216,21 @@ namespace GeneticAlgorithm
                 nextSolutions.Add(solution);
             }
             return nextSolutions;
-        }   
+        }
 
         private static void communication()
         {
             Console.WriteLine("The equation is: (4 * x + 8 * y + 5 * z)/ 3 * sqrt(y) + 2 * sqrt(x) * z^2).\n");
             Console.WriteLine("What is your desired result to the equation above?");
-            Console.Write("My result is: ");
-            double desiredResult = Convert.ToDouble(Console.ReadLine());
-            expectedResult = desiredResult;
+            askForResult();
 
             Console.WriteLine(".........................................................................................");
-            Console.Write("Accepted error rate (in %): ");
-            double acceptedError = Convert.ToDouble(Console.ReadLine());
-            errorRate = acceptedError;
+            askForErrorRate();
+
+           
 
             Console.WriteLine(".........................................................................................");
-            Console.Write("rate of mutations (in %): ");
-            double mutationRate = Convert.ToDouble(Console.ReadLine());
-            mutationCont = mutationRate;
+            askForMutationRate();
         }
 
         private static void evolution()
